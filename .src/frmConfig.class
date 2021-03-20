@@ -1,0 +1,75 @@
+' Gambas class file
+
+Public RutaTomato As String
+Public FichTomato As String
+  
+Public Sub Form_Open()
+  Me.X = FMain.x + 10
+  Me.Y = FMain.Y + 10
+  System.Shell = "/bin/bash"
+  RutaTomato = User.Home & "/.TomateClock"
+  FichTomato = RutaTomato & "/tomateclock.config"
+  MAXyMIN()
+  Dim Existe As String[]
+  Existe = Dir(RutaTomato, "tomateclock.config")
+  If Existe.Count > 0
+    ' Leer valores del fichero de configuracion
+    LeerConfig()    
+  Else
+    'No hay configuracion - pongo valores x defecto -
+    ValoresDefecto()
+  Endif
+End
+Public Function MAXyMIN()
+    tiempoPomodoro.MinValue = 1
+    tiempoPomodoro.MaxValue = 59
+    tiempoPausaCorta.MinValue = 1
+    tiempoPausaCorta.MaxValue = 59
+    tiempoPausaLarga.MinValue = 1
+    tiempoPausaLarga.MaxValue = 59  
+End
+Public Function ValoresDefecto()
+    tiempoPomodoro.Value = 25
+    tiempoPausaCorta.Value = 5
+    tiempoPausaLarga.Value = 20  
+End
+
+Public Sub BotonDefecto_Click()
+    ValoresDefecto()
+End
+
+Public Sub tiempoPomodoro_Change()
+  lcdPomodoro.Text = Right("0" & tiempoPomodoro.Value, 2)
+End
+
+Public Sub tiempoPausaCorta_Change()
+  lcdPausaCorta.Text = Right("0" & tiempoPausaCorta.Value, 2)
+End
+
+Public Sub tiempoPausaLarga_Change()
+  lcdPausaLarga.Text = Right("0" & tiempoPausaLarga.Value, 2)
+End
+
+Public Sub botonGuardar_Click()
+  GrabarConfig()
+End
+
+Public Function LeerConfig()
+  Dim trozo As String[]
+  Dim ValoresFich As String
+  Shell "echo -ne $(cat " & Shell$(FichTomato) & ")" To ValoresFich
+  trozo = Split(ValoresFich, "-")
+  tiempoPomodoro.Value = trozo[0]
+  tiempoPausaCorta.Value = trozo[1]
+  tiempoPausaLarga.Value = trozo[2]
+End
+
+
+Public Function GrabarConfig()
+  Dim Valores As String
+  Valores = Shell$(tiempoPomodoro.Value & "-" & tiempoPausaCorta.Value & "-" & tiempoPausaLarga.Value)
+  Shell "echo " & valores & " > " & FichTomato Wait
+  Me.Close
+End
+
+

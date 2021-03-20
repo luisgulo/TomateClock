@@ -1,0 +1,95 @@
+# Gambas Form File 3.0
+
+{ Form Form
+  MoveScaled(0,0,72,10)
+  Text = ("TOMATE Clock     (Tecnica Pomodoro)")
+  Icon = Picture["TomateClock-icono.png"]
+  Resizable = False
+  { botonINICIAR Button
+    MoveScaled(1,5,18,4)
+    Text = (" COMENZAR")
+    Picture = Picture["icon:/32/play"]
+  }
+  { botonConfig Button
+    MoveScaled(58,5,4,4)
+    ToolTip = ("Configurar")
+    Picture = Picture["TomateClock-Config.png"]
+  }
+  { picTomate PictureBox
+    MoveScaled(63,1,8,8)
+    Picture = Picture["TomateClock-icono.png"]
+    Stretch = True
+  }
+  { picPausa PictureBox
+    MoveScaled(63,1,8,8)
+    Picture = Picture["TomateClock-Pausa.png"]
+    Stretch = True
+  }
+  { Panel1 Panel
+    MoveScaled(1,1,61,3)
+    { Tomate1 Panel
+      MoveScaled(0,0,11,3)
+      Background = Color.Red
+      Border = Border.Plain
+    }
+    { Pausa1 Panel
+      MoveScaled(11,0,2,3)
+      Background = Color.Green
+      Border = Border.Plain
+    }
+    { Tomate2 Panel
+      MoveScaled(13,0,11,3)
+      Background = Color.Red
+      Border = Border.Plain
+    }
+    { Pausa2 Panel
+      MoveScaled(24,0,2,3)
+      Background = Color.Green
+      Border = Border.Plain
+    }
+    { Tomate3 Panel
+      MoveScaled(26,0,11,3)
+      Background = Color.Red
+      Border = Border.Plain
+    }
+    { Pausa3 Panel
+      MoveScaled(37,0,2,3)
+      Background = Color.Green
+      Border = Border.Plain
+    }
+    { Tomate4 Panel
+      MoveScaled(39,0,11,3)
+      Background = Color.Red
+      Border = Border.Plain
+    }
+    { Pausa4 Panel
+      MoveScaled(50,0,11,3)
+      Background = Color.Green
+      Border = Border.Plain
+    }
+  }
+  { PictureBox1 PictureBox
+    MoveScaled(25,5,4,4)
+    Picture = Picture["TomateClock-icono.png"]
+    Stretch = True
+  }
+  { txtPomodoro Label
+    MoveScaled(29,6,5,4)
+    Font = Font["Bold"]
+    Text = ("25")
+  }
+  { PictureBox2 PictureBox
+    MoveScaled(35,5,4,4)
+    Picture = Picture["TomateClock-Pausa.png"]
+    Stretch = True
+  }
+  { txtPausa Label
+    MoveScaled(39,6,7,4)
+    Font = Font["Bold"]
+    Text = ("05 / 25")
+  }
+  { Pitido MediaView
+    MoveScaled(0,0,13,5)
+    Visible = False
+  }
+}

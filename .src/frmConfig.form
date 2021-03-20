@@ -1,0 +1,69 @@
+# Gambas Form File 3.0
+
+{ Form Form
+  MoveScaled(0,0,44,41)
+  Text = ("Configuracion  TomateClock")
+  Icon = Picture["icon:/22/options"]
+  Resizable = False
+  { BotonDefecto Button
+    MoveScaled(2,34,23,6)
+    Text = (" Valores por defecto")
+    Picture = Picture["TomateClock_32x32.png"]
+  }
+  { Panel1 Panel
+    MoveScaled(2,23,39.875,9.875)
+    { lcdPausaLarga LCDLabel
+      MoveScaled(31,0,8,4)
+      Foreground = Color.DarkGreen
+      Text = ("2o")
+      Alignment = Align.Right
+    }
+    { tiempoPausaLarga Slider
+      MoveScaled(0,5,39,4)
+      PageStep = 1
+    }
+    { Label3 Label
+      MoveScaled(0,0,29,4)
+      Text = ("Pausa Larga (Minutos)")
+    }
+  }
+  { Panel2 Panel
+    MoveScaled(2,12,39.875,9.875)
+    { lcdPausaCorta LCDLabel
+      MoveScaled(31,0,8,4)
+      Foreground = Color.DarkGreen
+      Text = ("5")
+      Alignment = Align.Right
+    }
+    { tiempoPausaCorta Slider
+      MoveScaled(0,5,39,4)
+      PageStep = 1
+    }
+    { Label2 Label
+      MoveScaled(0,0,29,4)
+      Text = ("Pausa Corta (Minutos)")
+    }
+  }
+  { Panel3 Panel
+    MoveScaled(2,1,39.875,9.875)
+    { lcdPomodoro LCDLabel
+      MoveScaled(31,0,8,4)
+      Foreground = Color.Red
+      Text = ("25")
+      Alignment = Align.Right
+    }
+    { tiempoPomodoro Slider
+      MoveScaled(0,5,39,4)
+      PageStep = 1
+    }
+    { Label1 Label
+      MoveScaled(0,0,29,4)
+      Text = ("Minutos para cada 'Pomodoro'")
+    }
+  }
+  { botonGuardar Button
+    MoveScaled(26,34,16,6)
+    Text = (" Guardar")
+    Picture = Picture["icon:/32/floppy"]
+  }
+}

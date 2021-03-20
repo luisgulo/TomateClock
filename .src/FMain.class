@@ -1,0 +1,197 @@
+' Gambas class file
+
+ Public RutaTomato As String
+ Public FichTomato As String
+ Public Tiempos As String[]
+ Public Proceso As Integer
+ Public SegProceso As Integer
+ Public Transcurrido As Integer
+
+Public Sub Form_Open()
+  ' AJUSTAR VOLUMEN AL 20%
+  Dim obVolumen As Object
+  Dim obControlador As Object
+  'Sonido se instala en la ruta tras la instalación
+  Pitido.URL = "/usr/local/share/applications/TomatoClock.mp3"
+  obControlador = Pitido.Children[0]
+  obControlador = obControlador.Children[0]
+  obVolumen = obControlador.Children[3]
+  obVolumen.Children[5].value = 20 ' --> 20%
+  System.Shell = "/bin/bash"
+  RutaTomato = User.Home & "/.TomateClock"
+  FichTomato = RutaTomato & "/tomateclock.config"
+  'Forzar creacion directorio por defecto siempre
+  Shell "mkdir -p " & RutaTomato Wait
+  Me.X = 0
+  Me.Y = 0
+  CargarValores()
+  Proceso = 99
+  Transcurrido = 0
+  MostrarPomodoros()
+  ' Para la "foto"
+  'picTomate.Visible = True
+End
+
+Public Sub botonConfig_Click()
+  frmConfig.ShowModal
+  CargarValores()
+End
+
+Public Sub botonINICIAR_Click()
+  botonINICIAR.Enabled = False
+  botonConfig.Enabled = False
+  Proceso = 0
+  ' simular proceso 
+  Dim i As Integer
+  For i = 0 To Tiempos.Max
+    Proceso = i
+    MostrarPomodoros()
+    Wait Tiempos[i] * 60 ' Esperamos lo que se ha definido
+    Pitido.Play
+  Next
+  botonConfig.Enabled = True
+  botonConfig.Enabled = True
+End
+
+Public Function CargarValores()
+  Dim tPom As String
+  Dim pCorta As String
+  Dim pLarga As String
+
+  Dim Existe As String[]
+  Existe = Dir(RutaTomato, "tomateclock.config")
+  If Existe.Count > 0
+    ' Leer valores del fichero de configuracion
+      Dim trozo As String[]
+      Dim ValoresFich As String
+      Shell "echo -ne $(cat " & Shell$(FichTomato) & ")" To ValoresFich
+      trozo = Split(ValoresFich, "-")
+      tPom = trozo[0]
+      pCorta = trozo[1]
+      pLarga = trozo[2]
+  Else
+    'No hay configuracion - pongo valores x defecto -
+    tPom = "25"
+    pCorta = "5"
+    pLarga = "20"
+  Endif
+  Tiempos = [tPom, pCorta, tPom, pCorta, tPom, pCorta, tPom, pLarga]
+  txtPomodoro.Text = tPom
+  txtPausa.Text = pCorta & " / " & pLarga
+  Proceso = 0 'Empezaremos por el primero 
+End
+
+Public Function MostrarPomodoros()
+  Select Case Proceso
+    Case 0 ' Pomodoro 1
+        Tomate1.Visible = True      
+        Pausa1.Visible = False
+        Tomate2.Visible = False
+        Pausa2.Visible = False
+        Tomate3.Visible = False
+        Pausa3.Visible = False
+        Tomate4.Visible = False
+        Pausa4.Visible = False
+        ' imagen
+        picTomate.Visible = True
+        picPausa.Visible = False        
+    Case 1 ' Pausa Corta 1
+        Tomate1.Visible = True
+        Pausa1.Visible = True        
+        Tomate2.Visible = False
+        Pausa2.Visible = False
+        Tomate3.Visible = False
+        Pausa3.Visible = False
+        Tomate4.Visible = False
+        Pausa4.Visible = False  
+        ' imagen  
+        picTomate.Visible = False
+        picPausa.Visible = True
+    Case 2 ' Pomodoro 2
+        Tomate1.Visible = True
+        Pausa1.Visible = True
+        Tomate2.Visible = True        
+        Pausa2.Visible = False
+        Tomate3.Visible = False
+        Pausa3.Visible = False
+        Tomate4.Visible = False
+        Pausa4.Visible = False   
+        ' imagen     
+        picTomate.Visible = True
+        picPausa.Visible = False        
+    Case 3 ' Pausa Corta 2
+        Tomate1.Visible = True
+        Pausa1.Visible = True
+        Tomate2.Visible = True
+        Pausa2.Visible = True
+        Tomate3.Visible = False
+        Pausa3.Visible = False
+        Tomate4.Visible = False
+        Pausa4.Visible = False   
+        ' imagen   
+        picTomate.Visible = False
+        picPausa.Visible = True            
+    Case 4 ' Pomodoro 3
+        Tomate1.Visible = True
+        Pausa1.Visible = True
+        Tomate2.Visible = True
+        Pausa2.Visible = True
+        Tomate3.Visible = True        
+        Pausa3.Visible = False
+        Tomate4.Visible = False
+        Pausa4.Visible = False    
+        ' imagen   
+        picTomate.Visible = True
+        picPausa.Visible = False
+    Case 5 ' Pausa Corta 3
+        Tomate1.Visible = True
+        Pausa1.Visible = True
+        Tomate2.Visible = True
+        Pausa2.Visible = True
+        Tomate3.Visible = True
+        Pausa3.Visible = True        
+        Tomate4.Visible = False
+        Pausa4.Visible = False   
+        ' imagen  
+        picTomate.Visible = False
+        picPausa.Visible = True           
+    Case 6 ' Pomodoro 4
+        Tomate1.Visible = True
+        Pausa1.Visible = True
+        Tomate2.Visible = True
+        Pausa2.Visible = True
+        Tomate3.Visible = True
+        Pausa3.Visible = True
+        Tomate4.Visible = True        
+        Pausa4.Visible = False    
+        ' imagen  
+        picTomate.Visible = True
+        picPausa.Visible = False              
+    Case 7 ' Pausa Larga
+        Tomate1.Visible = True
+        Pausa1.Visible = True
+        Tomate2.Visible = True
+        Pausa2.Visible = True
+        Tomate3.Visible = True
+        Pausa3.Visible = True
+        Tomate4.Visible = True
+        Pausa4.Visible = True   
+        ' imagen    
+        picTomate.Visible = False
+        picPausa.Visible = True           
+    Case Else ' Para otros casos (inicio)
+        'Todo visible
+        Tomate1.Visible = True
+        Pausa1.Visible = True
+        Tomate2.Visible = True
+        Pausa2.Visible = True
+        Tomate3.Visible = True
+        Pausa3.Visible = True
+        Tomate4.Visible = True
+        Pausa4.Visible = True
+        ' imagen
+        picTomate.Visible = False
+        picPausa.Visible = False
+  End Select  
+  'Message("estoy en proceso: " & Proceso)
+End
